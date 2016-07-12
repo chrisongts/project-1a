@@ -39,7 +39,7 @@ img {
   font-size: 4em;
   width: 6em;
   height: 1em;
-  padding-top: 250px;
+  padding-top: 5em; /* 250px*/
   color: #000000;
 }
 
@@ -124,7 +124,7 @@ img {
   height: 3em;
   display: inline-flex;
   flex-flow: wrap;
-  border: 1px solid black;
+  border: 2px solid black;
   margin:0 auto;
   margin-left: 8%;
   font-size: .6em;
@@ -143,15 +143,17 @@ img {
   margin: .5em 0 0 1.5em;
   float: left;
   margin-right: -2%;
+  text-align: center;
 }
 
 #remark {
   width: 7em;
   height: 1em;
   background-color: #ffffe0;
-  margin: .5em 1.4em 0 0;
+  margin: .5em 1.5em 0 0;
   float: right;
   color: #800000;
+  text-align: center;
 }
 
 button {

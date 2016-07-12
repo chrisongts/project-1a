@@ -1,6 +1,8 @@
 window.onload = function() {
 
-  function numberOfQuestions() {
+    function numberOfQuestions() {
+
+      // initial loading of the two dimentional array of questions and answers
 
       questionArr = [
         ['The "ink fish" ejects ink in the water to capture his prey', 'f'],
@@ -25,153 +27,227 @@ window.onload = function() {
         ['During his lifetime, a person will produce about 5,000 quarts (5000 liters) of saliva.', 'f'],
         ['All of the bacteria in our body collectively weigh about 0.45 kg.', 'f'],
         ['The human body fully replaces all its cells every 14 years.', 'f'],
-        ['here are 100,000 km of blood vessels in a human body', 't'],
+        ['There are 100,000 km of blood vessels in a human body', 't'],
         ['Ocean saltwater cannot freeze.', 'f'],
         ['The distance between the Sun and Earth is 88 million km.', 'f'],
         ['Asia covers about 30% of Earth’s land surface.', 't'],
         ['Africa covers 14% of Earth’s surface.', 'f'],
         ['There are more than 25,000 islands in the Pacific Ocean.', 't'],
         ['The Amazon Rainforest produces 20% of Earth’s oxygen.', 't'],
-        ['The first floppy measured 8 in. (200 mm) in diameter.', 't']
+        ['The first floppy measured 8 in. (200 mm) in diameter.', 't'],
+        ['As far as has ever been reported, no-one has ever seen an ostrich bury its head in the sand.', 't'],
+        ['Approximately one quarter of human bones are in the feet.', 't'],
+        ['Ladybirds can fly at speeds up to 60 kph.', 't'],
+        ['111,111,111 × 111,111,111 = 12345678987654321.', 't'],
+        ['Skin is the human body’s largest organ.', 't'],
+        ['An acute angle is more than 90 degrees', 'f'],
+        ['The tiniest bones in the human body are found in the hand.', 'f'],
+        ['Toenails grow faster than fingernails.', 'f'],
+        ['Every hair follicle produces five individual hairs during a person’s lifetime.', 'f'],
+        ['The liver can grow back up to 70%.', 't']
       ];
 
+      // randomised questions selection
+
       var i = 1;
-      var questionIndex = [];
+      questionIndex = [];
       questionSelected = [];
-      while ( i <= 10) {
-        var random = Math.random();
-        if ( random <= .3 ) {
+      while (i <= 10) {
+        random = Math.random();
+        if (random < .393) {
           random *= 100;
           random = Math.round(random);
-          if ( questionIndex.indexOf(random) === -1) {
+
+          if (questionIndex.indexOf(random) === -1) {
             questionIndex.push(random);
             questionSelected.push(questionArr[random]);
             i++;
           };
         };
       };
-      numberOfQuestion = i - 1;
+
 
       player1 = 1;
       player2 = 0;
       player1Score = 0;
       player2Score = 0;
+      questionNumber = 0;
+      numberOfQuestion = i - 1;
 
     } // end of numberOfQuestions()
 
-  function playGame() {
+    numberOfQuestions();
+
+    function init() {
 
       owlh1 = document.getElementById('owl-h1');
 
       owlh1.innerHTML = 'Click to start';
-      owlh1.addEventListener('click', function() {
-      console.log("Owl speak");
-      owlh1.innerHTML = 'True or False';
 
-      numberOfQuestions();
+      owlh1.addEventListener('click', playGame);
 
-      questionNumber = 0;
+    }
 
+    init();
+
+
+    // main function playGame()
+
+    function playGame() {
+
+
+      owlh1.innerHTML = 'True or False'; // this
+
+      owlh1.removeEventListener('click', playGame);
       currentQuestion();
 
       currentAnswer();
 
-      function currentQuestion() {
+    }; // end of playGame()
 
-        // display number of questions left on screen
-        questionLeft = document.getElementById('question-left-div');
-        questionLeft.innerHTML = numberOfQuestion;
+    function currentQuestion() {
 
-        // display current question on screen
-        question = document.getElementById('question-ask')
-        question.innerHTML = questionSelected[questionNumber][0];
+      // display number of questions left on screen
+      questionLeft = document.getElementById('question-left-div');
+      questionLeft.innerHTML = numberOfQuestion;
 
-        // check of the standard answer in the questionArr
-        numberOfChoice();
+      // display current question on screen
+      question = document.getElementById('question-ask')
+      question.innerHTML = questionSelected[questionNumber][0];
 
-        --numberOfQuestion;
-        ++questionNumber;
-        console.log("Current question is " + questionNumber);
+      // display player's turn (remark) on screen
+      remark = document.getElementById('remark');
+      if (player1 === 1) {
+        remark.innerHTML = "Player 1 turn";
+      } else
+        remark.innerHTML = "Player 2 turn";
 
-      }
 
-      function numberOfChoice() {
+      // check of the standard answer in the questionArr
+      numberOfChoice();
 
-        theCorrectAnswer = questionSelected[questionNumber][1];
-        numberChoice = 1;
-        console.log("numberOfChoice function called " + answer);
-      }
+      --numberOfQuestion;
+      ++questionNumber;
 
-      function currentAnswer() {
+      answer = document.getElementById('answer');
+      answer.innerHTML = ' ';
 
-        var trueBtn = document.getElementById('true');
-        trueBtn.addEventListener('click', function() {
-          console.log("True botton clicked");
-          ans = 't';
-          playTurn(ans);
-        });
+    } // end of currentQuestion()
 
-        var falseBtn = document.getElementById('false');
-        falseBtn.addEventListener('click', function() {
-          console.log("false button");
-        });
+    function numberOfChoice() {
 
-        var resetBtn = document.getElementById('reset');
-        resetBtn.addEventListener('click', function() {
-          console.log("reset button");
-        });
+      theCorrectAnswer = questionSelected[questionNumber][1];
+      numberChoice = 1;
 
-      } // end of currentAnswer()
+    }
 
-      function playTurn(ans) {
-        ansCaptured = ans;
-        console.log("player " + player1);
-        console.log("player " + player2);
+    function currentAnswer() {
 
-        if ( player1 === 1 ) {
-          correctAnswer(ansCaptured);
-          if ( addScore === 1 ) {
-            ++player1Score;
-            console.log("player 1 score = " + player1Score);
-            var play1 = document.getElementById('player1-score');
-            play1.innerHTML = player1Score;
-          };
-          player1 = 0;
-          player2 = 1;
-          } else {
-          correctAnswer(ansCaptured);
-          if ( addScore === 1 ) {
-            ++player2Score;
-            var play2 = document.getElementById('player2-score');
-            play2.innerHTML = player2Score;
-          };
-          player1 = 0;
-          player2 = 1;
+      var trueBtn = document.getElementById('true');
+      trueBtn.addEventListener('click', function() {
+
+        ans = 't';
+        playTurn(ans);
+        if (numberOfQuestion === 0) {
+          questionLeft = document.getElementById('question-left-div');
+          questionLeft.innerHTML = numberOfQuestion;
+          gameOver();
+        } else
+          timerid = setTimeout(currentQuestion, 500);
+
+      }); // end of true event
+
+      var falseBtn = document.getElementById('false');
+      falseBtn.addEventListener('click', function() {
+        ans = 'f';
+        playTurn(ans);
+        if (numberOfQuestion === 0) {
+          questionLeft = document.getElementById('question-left-div');
+          questionLeft.innerHTML = numberOfQuestion;
+          gameOver();
+        } else
+          timerid = setTimeout(currentQuestion, 500);
+
+      }); // end of false event
+
+      var resetBtn = document.getElementById('reset');
+      resetBtn.addEventListener('click', function() {
+        restart();
+      }); // end of reset event
+
+    } // end of currentAnswer()
+
+    function playTurn(ans) {
+
+      ansCaptured = ans;
+
+      if (player1 === 1) {
+        correctAnswer(ansCaptured);
+        if (addScore === 1) {
+          ++player1Score;
+
+          var play1 = document.getElementById('player1-score');
+          play1.innerHTML = player1Score;
         };
-        } // end of playTurn()
+        player1 = 0;
+        player2 = 1;
+      } else {
+        correctAnswer(ansCaptured);
+        if (addScore === 1) {
+          ++player2Score;
+          var play2 = document.getElementById('player2-score');
+          play2.innerHTML = player2Score;
+        };
+        player1 = 1;
+        player2 = 0;
+      }; // end of if loop for if player1 === 1
 
-        function correctAnswer(ans) {
-          console.log("Correct Answer function called");
-          ansComp = ans;
-          addScore = 0;
-          console.log("The correct answer = " + theCorrectAnswer);
-          console.log("Answer captured = " + ansComp)
-          var answer = document.getElementById('answer');
-          if ( ansComp === theCorrectAnswer ) {
-            answer.innerHTML = 'Correct answer';
-            addScore = 1;
-          } else answer.innerHTML = 'Wrong answer';
+    } // end of playTurn()
 
-          } // end of correctAnswer()
+    function whoWon() {
 
+      remark = document.getElementById('remark');
+      if (player1Score === player2Score) {
+        remark.innerHTML = 'Draw';
+      } else
+      if (player1Score > player2Score) {
+        remark.innerHTML = 'Player 1 Won';
+      } else {
+        remark.innerHTML = 'Player 2 Won';
+      };
 
+    } // end of whoWon()
 
-  }); // end of owlh1 click function
+    function gameOver() {
 
+      owlh1 = document.getElementById('owl-h1');
+      owlh1.innerHTML = 'Game Over';
+      owlh1.style.color = "#00ffff";
 
+      whoWon();
 
-};  // end of playGame()
+    } // end of gameOver()
 
-playGame();
+    function restart() {
+      location.reload(true);
+    }
 
-}
+    function correctAnswer(ans) {
+
+      ansComp = ans;
+      addScore = 0;
+
+      var answer = document.getElementById('answer');
+      if (ansComp === theCorrectAnswer) {
+        answer.innerHTML = 'Correct :)';
+        answer.style.color = '#0000cd';
+        addScore = 1;
+      } else {
+        answer.innerHTML = 'Wrong :(';
+        answer.style.color = '#ff0000';
+        addScore = 0;
+      }
+
+    } // end of correctAnswer()
+
+  } // end of window.onload
